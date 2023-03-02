@@ -79,7 +79,10 @@ ARIMA_lite <- function(formula,
 #' ## The following two examples are equivalent
 #' pred <- predict(t, names(t)[-1], h = "2 years")
 #' pred <- predict(t, names(t)[-1], h = 8)
+#'
+#' \dontrun{
 #' plot(pred)
+#' }
 #'
 #' @export
 predict.inz_ts <- function(object, var = NULL, h = 8, mult_fit = FALSE,
@@ -224,6 +227,9 @@ predict.inz_ts <- function(object, var = NULL, h = 8, mult_fit = FALSE,
     )
 }
 
+use_urca <- function() {
+    urca::plot
+}
 
 predict_inzightts_var <- function(x, var, h, mult_fit, pred_model, confint_width) {
     fit <- fabletools::model(x, Prediction = pred_model(log_if(!!var, !!mult_fit)))
@@ -413,14 +419,12 @@ plot_forecast_var <- function(x, var, xlab, ylab, title) {
 #'
 #' @rdname forecastsummary
 #'
-#' @seealso \code{\link[iNZightTS]{predict.inz_ts}}
+#' @seealso \code{\link[iNZightTS2]{predict.inz_ts}}
 #'
 #' @examples
-#' library(dplyr)
-#' s <- visitorsQ %>%
-#'     inzightts(var = 2:5) %>%
-#'     predict("Japan") %>%
-#'     summary("Japan")
+#' ts <- inzightts(visitorsQ, var = 2:5)
+#' p <- predict(ts, "Japan")
+#' s <- summary(p, "Japan")
 #' s
 #' print(s, show_details = TRUE)
 #'
